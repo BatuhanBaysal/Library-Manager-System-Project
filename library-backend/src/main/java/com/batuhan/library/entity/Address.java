@@ -1,9 +1,11 @@
 package com.batuhan.library.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "address")
+@Data
 public class Address {
 
     @Id

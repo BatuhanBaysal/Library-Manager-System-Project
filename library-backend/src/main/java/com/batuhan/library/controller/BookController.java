@@ -67,7 +67,7 @@ public class BookController {
 
     @GetMapping("search")
     // e. g. URL: http://localhost:8080/api/books/search?title=Lord&author=Tolki&isbn=1234&barcodeNumber=1234 -> GET
-    public ResponseEntity<List<BookDTO>> seachBooks(
+    public ResponseEntity<List<BookDTO>> searchBooks(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String author,
             @RequestParam(required = false) String isbn,
