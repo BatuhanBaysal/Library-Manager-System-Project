@@ -50,4 +50,29 @@ public class BookController {
         bookService.deleteBook(id);
         return new ResponseEntity<>("Book successfully deleted.", HttpStatus.OK);
     }
+
+    @GetMapping("search-title")
+    // e. g. URL: http://localhost:8080/api/books/search-title?title=Lord of the Rings -> GET
+    public ResponseEntity<List<BookDTO>> searchBooksByTitle(@RequestParam String title) {
+       List<BookDTO> books = bookService.findBooksByTitle(title);
+       return new ResponseEntity<>(books, HttpStatus.OK);
+    }
+
+    @GetMapping("search-title-author")
+    // e. g. URL: http://localhost:8080/api/books/search-title-author?title=Lord of the Rings&author=J.R.R. Tolkien -> GET
+    public ResponseEntity<List<BookDTO>> searchBooksByTitleAndAuthor(@RequestParam String title, @RequestParam String author) {
+        List<BookDTO> books = bookService.findBooksByTitleAndAuthor(title, author);
+        return new ResponseEntity<>(books, HttpStatus.OK);
+    }
+
+    @GetMapping("search")
+    // e. g. URL: http://localhost:8080/api/books/search?title=Lord&author=Tolki&isbn=1234&barcodeNumber=1234 -> GET
+    public ResponseEntity<List<BookDTO>> seachBooks(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String isbn,
+            @RequestParam(required = false) String barcodeNumber) {
+        List<BookDTO> books = bookService.findBooksByCriteria(title, author, isbn, barcodeNumber);
+        return new ResponseEntity<>(books, HttpStatus.OK);
+    }
 }
