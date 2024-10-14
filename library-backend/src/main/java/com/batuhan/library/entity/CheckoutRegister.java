@@ -1,11 +1,13 @@
 package com.batuhan.library.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDate;
 
 @Entity
 @Table
+@Data
 public class CheckoutRegister {
 
     @Id
@@ -14,6 +16,10 @@ public class CheckoutRegister {
 
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
     @Column(nullable = false)
