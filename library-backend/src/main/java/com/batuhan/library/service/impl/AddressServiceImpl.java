@@ -53,7 +53,7 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.deleteById(id);
     }
 
-    private void updateAddressEntityFromDTO(Address addressToUpdate, AddressDTO addressDTO) {
+    public  void updateAddressEntityFromDTO(Address addressToUpdate, AddressDTO addressDTO) {
         if (addressDTO.getAddressName() != null) {
             addressToUpdate.setAddressName(addressDTO.getAddressName());
         }

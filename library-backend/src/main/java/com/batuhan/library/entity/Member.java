@@ -1,11 +1,13 @@
 package com.batuhan.library.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "members")
+@Data
 public class Member {
 
     @Id
@@ -21,7 +23,7 @@ public class Member {
     @Column(nullable = false)
     private LocalDate dateOfBirth;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
