@@ -3,6 +3,8 @@ package com.batuhan.library.controller;
 import com.batuhan.library.dto.AddressDTO;
 import com.batuhan.library.service.AddressService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +15,15 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("api/address")
 public class AddressController {
+    private static final Logger logger = LoggerFactory.getLogger(AddressController.class);
     private AddressService addressService;
 
     @PostMapping("createAddress")
     // e. g. URL: http://localhost:8080/api/address/createAddress -> POST
     public ResponseEntity<AddressDTO> addAddress(@RequestBody AddressDTO addressDTO) {
+        logger.info("Creating a address...");
         AddressDTO createAddressDTO = addressService.createAddress(addressDTO);
+        logger.info("Created address DTO: {}", createAddressDTO);
         return new ResponseEntity<>(createAddressDTO, HttpStatus.OK);
     }
 

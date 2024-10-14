@@ -3,6 +3,8 @@ package com.batuhan.library.controller;
 import com.batuhan.library.dto.RegisterDTO;
 import com.batuhan.library.service.RegisterService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +15,15 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("api/registers")
 public class RegisterController {
+    private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
     private RegisterService registerService;
 
     @PostMapping("createRegister")
     // URL : http://localhost:8080/api/registers/createRegister -> POST
     public ResponseEntity<RegisterDTO> createRegister(@RequestBody RegisterDTO registerDTO) {
+        logger.info("Creating a register...");
         RegisterDTO register = registerService.createRegister(registerDTO);
+        logger.info("Created register DTO: {}", register);
         return new ResponseEntity<>(register, HttpStatus.CREATED);
     }
 

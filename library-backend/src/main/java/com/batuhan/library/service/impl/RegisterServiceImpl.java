@@ -1,11 +1,15 @@
 package com.batuhan.library.service.impl;
 
 import com.batuhan.library.dto.RegisterDTO;
+import com.batuhan.library.entity.Address;
 import com.batuhan.library.entity.CheckoutRegister;
+import com.batuhan.library.exception.ResourceNotFoundException;
 import com.batuhan.library.mapper.RegisterMapper;
 import com.batuhan.library.repository.CheckoutRegisterRepository;
 import com.batuhan.library.service.RegisterService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class RegisterServiceImpl implements RegisterService {
+    private static final Logger logger = LoggerFactory.getLogger(RegisterServiceImpl.class);
 
     @Value("${library.loanPeriodInDays}")
     private int loanPeriodInDays;
@@ -30,13 +35,16 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     public RegisterDTO createRegister(RegisterDTO registerDTO) {
+        logger.info("Trying to add a register: {}", registerDTO);
         CheckoutRegister checkoutRegister = registerMapper.mapToCheckoutRegistryEntity(registerDTO);
 
         //calculate due date
         LocalDate dueDate = calculateDueDate(checkoutRegister.getCheckoutDate());
         checkoutRegister.setDueDate(dueDate);
 
+        logger.info("Register entity after the mapping: {}", checkoutRegister);
         checkoutRegister = checkoutRegisterRepository.save(checkoutRegister);
+        logger.info("The register successfully saved in database: {}", checkoutRegister);
         return registerMapper.mapToRegisterDTO(checkoutRegister);
     }
 
@@ -50,15 +58,19 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     public RegisterDTO getRegisterById(Long id) {
-        Optional<CheckoutRegister> checkoutRegisterOptional = checkoutRegisterRepository.findById(id);
-        CheckoutRegister checkoutRegister = checkoutRegisterOptional.get();
+        // Optional<CheckoutRegister> checkoutRegisterOptional = checkoutRegisterRepository.findById(id);
+        // CheckoutRegister checkoutRegister = checkoutRegisterOptional.get();
+        CheckoutRegister checkoutRegister = checkoutRegisterRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Register", "ID", id));
         return registerMapper.mapToRegisterDTO(checkoutRegister);
     }
 
     @Override
     public RegisterDTO updateRegister(RegisterDTO registerDTO) {
         Optional<CheckoutRegister> checkoutRegisterOptional = checkoutRegisterRepository.findById(registerDTO.getId());
-        CheckoutRegister checkoutRegisterToUpdate = checkoutRegisterOptional.get();
+        CheckoutRegister checkoutRegisterToUpdate = checkoutRegisterOptional.orElseThrow(
+                () -> new ResourceNotFoundException("Register", "ID", registerDTO.getId())
+        );
         updateCheckoutRegisterFromDTO(checkoutRegisterToUpdate, registerDTO);
         calculateOverDueFine(checkoutRegisterToUpdate);
         CheckoutRegister updatedCheckoutRegister = checkoutRegisterRepository.save(checkoutRegisterToUpdate);
@@ -67,6 +79,9 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     public void deleteRegister(Long id) {
+        if (!checkoutRegisterRepository.existsById(id)){
+            throw new ResourceNotFoundException("Register", "ID", id);
+        }
         checkoutRegisterRepository.deleteById(id);
     }
 

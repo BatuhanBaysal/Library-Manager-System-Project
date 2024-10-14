@@ -3,6 +3,8 @@ package com.batuhan.library.controller;
 import com.batuhan.library.dto.BookDTO;
 import com.batuhan.library.service.BookService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +15,15 @@ import java.util.List;
 @RequestMapping("api/books")
 @AllArgsConstructor
 public class BookController {
+    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
     private BookService bookService;
 
     @PostMapping("addBook")
     // e. g. URL: http://localhost:8080/api/books/addBook -> POST
     public ResponseEntity<BookDTO> addBook(@RequestBody BookDTO bookDTO) {
+        logger.info("Adding a book...");
         BookDTO savedBookDTO = bookService.addBook(bookDTO);
+        logger.info("Saved book DTO: {}", savedBookDTO);
         return new ResponseEntity<>(savedBookDTO, HttpStatus.CREATED);
     }
 

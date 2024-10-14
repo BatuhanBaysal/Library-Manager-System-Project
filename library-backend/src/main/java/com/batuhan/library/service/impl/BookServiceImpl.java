@@ -1,7 +1,9 @@
 package com.batuhan.library.service.impl;
 
+import com.batuhan.library.controller.BookController;
 import com.batuhan.library.dto.BookDTO;
 import com.batuhan.library.entity.Book;
+import com.batuhan.library.exception.ResourceNotFoundException;
 import com.batuhan.library.mapper.BookMapper;
 import com.batuhan.library.repository.BookRepository;
 import com.batuhan.library.service.BookService;
@@ -11,6 +13,8 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,13 +25,17 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class BookServiceImpl implements BookService {
+    private static final Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
     private BookRepository bookRepository;
     private EntityManager entityManager;
 
     @Override
     public BookDTO addBook(BookDTO bookDTO) {
+        logger.info("Trying to add a book: {}", bookDTO);
         Book book = BookMapper.mapToBookEntity(bookDTO);
+        logger.info("Book entity after the mapping: {}", book);
         book = bookRepository.save(book);
+        logger.info("The book successfully saved in database: {}", book);
         return BookMapper.mapToBookDTO(book);
     }
 
@@ -41,15 +49,19 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDTO getBookById(Long bookId) {
-        Optional<Book> optionalBook = bookRepository.findById(bookId);
-        Book book = optionalBook.get();
+        // Optional<Book> optionalBook = bookRepository.findById(bookId);
+        // Book book = optionalBook.get();
+        Book book = bookRepository.findById(bookId).orElseThrow(
+                () -> new ResourceNotFoundException("Book", "ID", bookId));
         return BookMapper.mapToBookDTO(book);
     }
 
     @Override
     public BookDTO updateBook(BookDTO bookDTO) {
         Optional<Book> bookOptional = bookRepository.findById(bookDTO.getId());
-        Book bookToUpdate = bookOptional.get();
+        Book bookToUpdate = bookOptional.orElseThrow(
+                () -> new ResourceNotFoundException("Book", "ID", bookDTO.getId())
+        );
         updateBookEntityFromDTO(bookToUpdate, bookDTO);
         Book savedBook = bookRepository.save(bookToUpdate);
         return BookMapper.mapToBookDTO(savedBook);
@@ -57,6 +69,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteBook(Long bookId) {
+        if (!bookRepository.existsById(bookId)){
+            throw new ResourceNotFoundException("Book", "ID", bookId);
+        }
         bookRepository.deleteById(bookId);
     }
 

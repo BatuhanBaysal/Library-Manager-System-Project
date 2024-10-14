@@ -3,6 +3,8 @@ package com.batuhan.library.controller;
 import com.batuhan.library.dto.MemberDTO;
 import com.batuhan.library.service.MemberService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +15,15 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("api/members")
 public class MemberController {
+    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     private MemberService memberService;
 
     @PostMapping("addMember")
     // e. g. URL: http://localhost:8080/api/members/addMember -> POST
     public ResponseEntity<MemberDTO> addMember(@RequestBody MemberDTO memberDTO) {
+        logger.info("Adding a member...");
         MemberDTO savedMember = memberService.addMember(memberDTO);
+        logger.info("Saved member DTO: {}", savedMember);
         return new ResponseEntity<>(savedMember, HttpStatus.CREATED);
     }
 

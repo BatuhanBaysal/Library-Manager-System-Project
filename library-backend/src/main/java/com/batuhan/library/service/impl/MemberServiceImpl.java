@@ -4,6 +4,7 @@ import com.batuhan.library.dto.AddressDTO;
 import com.batuhan.library.dto.MemberDTO;
 import com.batuhan.library.entity.Address;
 import com.batuhan.library.entity.Member;
+import com.batuhan.library.exception.ResourceNotFoundException;
 import com.batuhan.library.mapper.AddressMapper;
 import com.batuhan.library.mapper.MemberMapper;
 import com.batuhan.library.repository.AddressRepository;
@@ -17,6 +18,8 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,6 +31,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class MemberServiceImpl implements MemberService {
+    private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
     private MemberRepository memberRepository;
     private AddressRepository addressRepository;
     private AddressServiceImpl addressService;
@@ -45,13 +49,15 @@ public class MemberServiceImpl implements MemberService {
             address = AddressMapper.mapToAddressEntity(addressDTO);
             address = addressRepository.save(address);
         }
-
+        logger.info("Trying to add a member: {}", memberDTO);
         Member member = MemberMapper.mapToMemberEntity(memberDTO);
         if (address != null) {
             member.setAddress(address);
         }
 
+        logger.info("Member entity after the mapping: {}", member);
         member = memberRepository.save(member);
+        logger.info("The member successfully saved in database: {}", member);
         return MemberMapper.mapToMemberDTO(member);
     }
 
@@ -65,8 +71,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDTO getMemberById(Long id) {
-        Optional<Member> optionalMember = memberRepository.findById(id);
-        Member member = optionalMember.get();
+        // Optional<Member> optionalMember = memberRepository.findById(id);
+        // Member member = optionalMember.get();
+        Member member = memberRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Member", "ID", id));
         return MemberMapper.mapToMemberDTO(member);
     }
 
@@ -74,7 +82,9 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public MemberDTO updateMember(MemberDTO memberDTO) {
         Optional<Member> optionalMember = memberRepository.findById(memberDTO.getId());
-        Member memberToUpdate = optionalMember.get();
+        Member memberToUpdate = optionalMember.orElseThrow(
+                () -> new ResourceNotFoundException("Member", "ID", memberDTO.getId())
+        );
         updateMemberEntityFromDTO(memberToUpdate, memberDTO);
         memberToUpdate = memberRepository.save(memberToUpdate);
         return MemberMapper.mapToMemberDTO(memberToUpdate);
@@ -82,6 +92,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void deleteMember(Long id) {
+        if (!memberRepository.existsById(id)){
+            throw new ResourceNotFoundException("Member", "ID", id);
+        }
         memberRepository.deleteById(id);
     }
 
