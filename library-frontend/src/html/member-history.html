@@ -1,22 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Member History</title>
-    <link rel="stylesheet" href="">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../assets/styles/style.css">
+  <title>Member History</title>
 </head>
 
 <body>
-    <h1>Member History: </h1> <!-- insert full name of the member -->
-    <div>
-        Display table with member checkout
-    </div>
+  <h1 id="memberName">Member history:</h1> <!-- first_name last_name -->
+  <!-- <p>checkout_date return_date "book_title, book_author"</p> -->
+  <div id="historyList"></div> <!-- Placeholder for the history list -->
 
-    <br><br>
-    <a href="home.html">Back to Home</a>
-    <a href="javascript:history.back()">Back to previous page</a>
+  <!-- book_author should be hyperlink to book -->
+  <!-- if there is no history, then "There is no history related to this member." -->
+  <br><br>
+  <a href="home.html" class="btn">Back to Home</a>
+  <a href="javascript:history.back()" class="btn">Back to previous page</a>
+  <script src="../assets/scripts/memberHistory.js"></script> <!-- Link to your JavaScript file -->
+
 </body>
 
 </html>

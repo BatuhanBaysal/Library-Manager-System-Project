@@ -1,67 +1,64 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Member Info</title>
-    <link rel="stylesheet" href="">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Info</title>
+  <link rel="stylesheet" href="../assets/styles/style.css"> <!-- Ensure correct path to CSS -->
 </head>
-
 <body>
-    <h1>Member Info: </h1> <!-- insert full name of the member -->
-    <form>
-        <table>
-            <tr>
-                <td>Card Number:</td>
-                <td id="cardNumber"></td>
-            </tr>
-            <tr>
-                <td>Address:</td>
-                <td id="address"></td>
-            </tr>
-            <tr>
-                <td>Phone:</td>
-                <td id="phone"></td>
-            </tr>
-            <tr>
-                <td>E-mail:</td>
-                <td id="email"></td>
-            </tr>
-            <tr>
-                <td>Date Of Birth:</td>
-                <td id="dateOfBirth"></td>
-            </tr>
-            <tr>
-                <td>Membership started:</td>
-                <td id="membershipStarted"></td>
-            </tr>
-            <tr>
-                <td>Membership ended:</td>
-                <td id="membershipEnded"></td>
-            </tr>
-            <tr>
-                <td>Membership status:</td>
-                <td id="membershipStatus"></td>
-            </tr>
-        </table>
-    </form>
+<h1>Member Info: <span id="memberFullName"></span></h1>
+<form>
+  <table class="search-form"> <!-- Use 'search-form' class for styling or create a new class if different styling needed -->
+    <tr>
+      <td>Card number:</td>
+      <td id="cardNumber"></td>
+    </tr>
+    <tr>
+      <td>Address:</td>
+      <td id="address"></td>
+    </tr>
+    <tr>
+      <td>Phone:</td>
+      <td id="phone"></td>
+    </tr>
+    <tr>
+      <td>Email:</td>
+      <td id="email"></td>
+    </tr>
+    <tr>
+      <td>Date of Birth:</td>
+      <td id="dateOfBirth"></td>
+    </tr>
+    <tr>
+      <td>Membership started:</td>
+      <td id="membershipStarted"></td>
+    </tr>
+    <tr>
+      <td>Membership ended:</td>
+      <td id="membershipEnded"></td>
+    </tr>
+    <tr>
+      <td>Membership status:</td>
+      <td id="membershipStatus"></td>
+    </tr>
+  </table>
+</form>
 
-    <!-- display list of checked-out books -->
-    <h2>Checked Out Books:</h2>
-    <div>
-        List of Books... <!-- fetched from db by the script -->
-    </div>
+<h2 id="checkedOutBooksHeading">Checked Out Books:</h2>
+<div id="checkedOutBooks">
+  <!-- Book details will be dynamically inserted here by the script -->
+</div>
 
-    <br><br>
-    <a href="book-checkout.html">Checkout a New Book</a>
-    <a href="member-history.html">Member History</a>
-    <a href="edit-member.html">Edit Member</a>
-    <a href="#">Change Membership Status</a>
+<br><br>
 
-    <br><br>
-    <a href="home.html">Back to Home</a>
-    <a href="javascript:history.back()">Back to previous page</a>
+<a id="checkoutLink" href="#" class="btn">Checkout a new book</a>
+<a href="member-history.html" class="btn">Member History</a>
+<a href="edit-member.html" class="btn">Edit Member</a>
+<a id="membershipActionLink" href="#" class="btn">Change Membership Status</a>
+<br><br>
+<a href="home.html" class="btn">Back to Home</a>
+<a href="javascript:history.back()" class="btn">Back to previous page</a>
+<script src="../assets/scripts/fetchMemberDetails.js"></script>
 </body>
-
 </html>

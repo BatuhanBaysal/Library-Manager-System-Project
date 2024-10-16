@@ -1,59 +1,57 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit Book</title>
-    <link rel="stylesheet" href="">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../assets/styles/style.css">
+  <title>Edit Book</title>
 </head>
-
 <body>
-    <h1>Edit Book #</h1> <!-- insert id of the book -->
-    <form>
-        <table>
-            <tr>
-                <td><label for="title">Title:</label></td>
-                <td><input type="text" id="title" name="title"></td>
-            </tr>
-            <tr>
-                <td><label for="isbn">ISBN:</label></td>
-                <td><input type="text" id="isbn" name="isbn"></td>
-            </tr>
-            <tr>
-                <td><label for="author">Author(s):</label></td>
-                <td><input type="text" id="author" name="author"></td>
-            </tr>
-            <tr>
-                <td><label for="publisher">Publisher:</label></td>
-                <td><input type="text" id="publisher" name="publisher"></td>
-            </tr>
-            <tr>
-                <td><label for="yearPublished">Year of Publication:</label></td>
-                <td><input type="number" id="publisher" name="publisher"></td>
-            </tr>
-            <tr>
-                <td><label for="placePublished">Place of Publication:</label></td>
-                <td><input type="text" id="publisher" name="publisher"></td>
-            </tr>
-            <tr>
-                <td><label for="noOfAvailableCopies">No Of Available Copies:</label></td>
-                <td><input type="text" id="noOfAvailableCopies" name="noOfAvailableCopies"></td>
-            </tr>
-            <tr>
-                <td><label for="barcodeNumber">Barcode:</label></td>
-                <td><input type="text" id="barcodeNumber" name="barcodeNumber"></td>
-            </tr>
-            <tr>
-                <td><!-- Empty cell for aligment --></td>
-                <td><input type="submit" value="Save Changes"></td>
-            </tr>
-        </table>
-    </form>
-
-    <br><br>
-    <a href="home.html">Back to Home</a>
-    <a href="javascript:history.back()">Back to previous page</a>
+<h1>Edit Book #12</h1> <!-- insert id from previous page -->
+<form class="search-form">
+  <table>
+    <tr>
+      <td><label for="title">Title:</label></td>
+      <td><input type="text" id="title" name="title"></td>
+    </tr>
+    <tr>
+      <td><label for="author">Author(s):</label></td>
+      <td><input type="text" id="author" name="author"></td>
+    </tr>
+    <tr>
+      <td><label for="isbn">ISBN:</label></td>
+      <td><input type="text" id="isbn" name="isbn"></td>
+    </tr>
+    <tr>
+      <td><label for="publisher">Publisher:</label></td>
+      <td><input type="text" id="publisher" name="publisher"></td>
+    </tr>
+    <tr>
+      <td><label for="yearPublished">Year of Publication:</label></td>
+      <td><input type="text" id="yearPublished" name="yearPublished"></td>
+    </tr>
+    <tr>
+      <td><label for="placePublished">Place of Publication:</label></td>
+      <td><input type="text" id="placePublished" name="placePublished"></td>
+    </tr>
+    <tr>
+      <td><label for="noOfAvailableCopies">No of Available Copies:</label></td>
+      <td><input type="text" id="noOfAvailableCopies" name="noOfAvailableCopies"></td>
+    </tr>
+    <tr>
+      <td><label for="barcodeNumber">Barcode:</label></td>
+      <td><input type="text" id="barcodeNumber" name="barcodeNumber"></td>
+    </tr>
+    <tr>
+      <td></td> <!-- Empty cell for alignment -->
+      <td><input type="submit" value="Save Changes" class="action-btn"></td>
+    </tr>
+  </table>
+</form>
+<!-- list books from the database: title, author, available_no; title is href to book-info -->
+<br><br>
+<a href="home.html" class="btn">Back to Home</a>
+<a href="javascript:history.back()" class="btn">Back to previous page</a>
+<script src="../assets/scripts/editBook.js"></script>
 </body>
-
 </html>

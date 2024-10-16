@@ -1,35 +1,32 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Book Checkout</title>
-    <link rel="stylesheet" href="">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../assets/styles/style.css">
+  <title>Book Checkout</title>
 </head>
-
 <body>
-    <h1>Book Checkout</h1>
-    <form>
-        <table>
-            <tr>
-                <td><label for="memberBarcode">Member Barcode:</label></td>
-                <td><input type="text" id="memberBarcode" name="memberBarcode"></td>
-            </tr>
-            <tr>
-                <td><label for="bookBarcode">Book Barcode:</label></td>
-                <td><input type="text" id="bookBarcode" name="bookBarcode"></td>
-            </tr>
-            <tr>
-                <td><!-- Empty cell for aligment --></td>
-                <td><input type="submit" value="Checkout"></td>
-            </tr>
-        </table>
-    </form>
-
-    <br><br>
-    <a href="home.html">Back to Home</a>
-    <a href="javascript:history.back()">Back to previous page</a>
+<h1>Book Checkout</h1>
+<form class="search-form">
+  <table>
+    <tr>
+      <td><label for="memberBarcode">Member barcode:</label></td> <!-- insert number if navigated through member -->
+      <td><input type="text" id="memberBarcode" name="memberBarcode"></td>
+    </tr>
+    <tr>
+      <td><label for="bookBarcode">Book barcode:</label></td> <!-- insert number if navigated through book -->
+      <td><input type="text" id="bookBarcode" name="bookBarcode"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="submit" value="Checkout" class="action-btn"></td>
+    </tr>
+  </table>
+</form>
+<br><br>
+<a href="home.html" class="btn">Back to Home</a>
+<a href="javascript:history.back()" class="btn">Back to previous page</a>
+<script src="../assets/scripts/checkout.js"></script>
 </body>
-
 </html>
