@@ -1,5 +1,6 @@
 package com.batuhan.library.dto;
 
+import jakarta.validation.constraints.Email;
 import lombok.Data;
 
 @Data
@@ -9,6 +10,7 @@ public class MemberDTO {
     private String lastName;
     private String dateOfBirth;
     private AddressDTO address;
+    @Email
     private String email;
     private String phone;
     private String membershipStarted;
